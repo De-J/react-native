@@ -3,6 +3,11 @@ import axios from "axios";
 const API_KEY = "";
 // put this in .env after finding a suitable react-native package
 
+const instance = axios.create({
+    baseURL: "https://www.googleapis.com/youtube/v3",
+    responseType: "json"
+})
+
 export const search = (query, type, channelId = "") => {
 
     const params = {
@@ -18,13 +23,7 @@ export const search = (query, type, channelId = "") => {
     else
         params["q"] = query;
 
-    const instance = axios.create({
-        baseURL: "https://www.googleapis.com/youtube/v3/search",
-        params: params,
-        responseType: "json"
-    });
-
-    return instance;
+    return instance("/search", {params: params});
 }
 
 export const getVideoStats = (videoIds) => {
@@ -34,12 +33,6 @@ export const getVideoStats = (videoIds) => {
         part: "snippet,statistics",
         id: videoIds
     };
-    
-    const instance = axios.create({
-        baseURL: "https://www.googleapis.com/youtube/v3/videos",
-        params: params,
-        responseType: "json"
-    });
 
-    return instance;
+    return instance("/videos", {params: params});
 }
