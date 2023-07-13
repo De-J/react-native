@@ -22,7 +22,7 @@ const Insights = () => {
             });
 
 
-            let res = await getVideoStats(videoIds.join()).get();
+            let res = await getVideoStats(videoIds.join());
             let acc = res.data.items;
             acc.forEach((ele) => {
                 likes.push(parseInt(ele.statistics.likeCount, 10));

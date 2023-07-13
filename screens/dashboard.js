@@ -15,14 +15,13 @@ const Dashboard = ({ navigation }) => {
 
     const handlePress = async () => {
         try {
-            let res = await search(text, "channel").get();
+            let res = await search(text, "channel");
 
             // extract channel id from initial search
             const channelId = res.data.items[0].id.channelId;
 
             // search for videos of above channelId
-            res = await search(text, "video", channelId).get();
-            // setVideos(response.items);
+            res = await search(text, "video", channelId);
             setVideos(res.data.items);
 
         }

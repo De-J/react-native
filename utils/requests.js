@@ -8,7 +8,7 @@ const instance = axios.create({
     responseType: "json"
 })
 
-export const search = (query, type, channelId = "") => {
+export const search = async (query, type, channelId = "") => {
 
     const params = {
         key: API_KEY,
@@ -26,7 +26,7 @@ export const search = (query, type, channelId = "") => {
     return instance("/search", {params: params});
 }
 
-export const getVideoStats = (videoIds) => {
+export const getVideoStats = async (videoIds) => {
     
     const params = {
         key: API_KEY,
