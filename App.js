@@ -3,7 +3,8 @@ import AppLoading from "expo-app-loading";
 import { useState } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack"
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { TouchableWithoutFeedback, Keyboard } from "react-native";
 
 import Dashboard from "./screens/dashboard";
 import Insights from "./screens/insights";
@@ -33,10 +34,12 @@ const App = () => {
   if (fontsLoaded) {
     return (
       <NavigationContainer>
+        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <Stack.Navigator screenOptions={{ headerShown: false }}>
           <Stack.Screen name="Home" component={Tabs} />
           <Stack.Screen name="Insights" component={Insights} />
         </Stack.Navigator>
+        </TouchableWithoutFeedback>
       </NavigationContainer>
     )
   } else {

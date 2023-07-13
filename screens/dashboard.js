@@ -1,7 +1,6 @@
 import { useState, useRef } from "react";
 import { StyleSheet, View, Text, TextInput, Button, FlatList } from "react-native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { TouchableWithoutFeedback, Keyboard } from "react-native";
 
 // import response from "../dummydata.json"
 
@@ -43,7 +42,6 @@ const Dashboard = ({ navigation }) => {
     }
 
     return (
-        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <View style={styles.container}>
             <View style={styles.searchBox}>
                 <Text style={styles.label}>Username / Handle:</Text>
@@ -62,7 +60,6 @@ const Dashboard = ({ navigation }) => {
                 title="Insights"
                 onPress={gotoInsights} />
         </View>
-        </TouchableWithoutFeedback>
     );
 }
 
