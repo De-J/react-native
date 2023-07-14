@@ -1,19 +1,22 @@
-import { useState, useRef } from "react";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { StyleSheet, View, Text, TextInput, Button, FlatList } from "react-native";
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // import response from "../dummydata.json"
 
 import { search } from "../utils/requests"
 import Tile from "../components/Tile";
+import { appendHistory } from "../slices/historySlice";
 
 const Dashboard = ({ navigation }) => {
+    const dispatch = useDispatch();
+
     const [text, setText] = useState("")
     const [videos, setVideos] = useState([]);
-    const frequency = useRef({});
 
     const handlePress = async () => {
         try {
+            dispatch(appendHistory(text));
             let res = await search(text, "channel");
 
             // extract channel id from initial search
@@ -22,18 +25,9 @@ const Dashboard = ({ navigation }) => {
             // search for videos of above channelId
             res = await search(text, "video", channelId);
             setVideos(res.data.items);
-
         }
         catch (err) {
-            console.error(err.response.data)
-        }
-
-        (frequency[text]) ? frequency[text]++ : frequency[text] = 1;
-
-        try {
-            await AsyncStorage.setItem('searchHistory', JSON.stringify(frequency));
-        } catch (error) {
-            console.log('Error saving search history:', error);
+            console.error(err.response.data);
         }
     }
 
@@ -46,16 +40,18 @@ const Dashboard = ({ navigation }) => {
             <View style={styles.searchBox}>
                 <Text style={styles.label}>Username / Handle:</Text>
                 <TextInput style={styles.input}
-                    placeholder="Search..."
+                    placeholder="Type a username"
                     onChangeText={(val) => setText(val)} />
                 <Button
-                    title="Submit"
-                    onPress={handlePress} />
+                    title="Search"
+                    onPress={handlePress}
+                    disabled={!text} />
             </View>
             <FlatList
                 data={videos}
                 renderItem={({ item }) => <Tile data={item} />}
-                keyExtractor={item => item.id.videoId} />
+                keyExtractor={item => item.id.videoId}
+                ItemSeparatorComponent={<Text></Text>} />
             <Button
                 title="Insights"
                 onPress={gotoInsights} />

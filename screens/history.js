@@ -1,55 +1,39 @@
-import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import { View, Text, FlatList, StyleSheet } from "react-native";
-import AsyncStorage from '@react-native-async-storage/async-storage';
-
 
 const History = () => {
-    const [searchHistory, setSearchHistory] = useState([]);
+    const history = useSelector(state => state.history.histObj);
 
-    useEffect(() => {
-        loadSearchHistory();
-    });
+    console.log(history);
 
-    const loadSearchHistory = async () => {
-        try {
-            const data = await AsyncStorage.getItem('searchHistory');
-            const history = JSON.parse(data);
-
-            let filt_hist = []
-            if (history !== null) {
-                let id = 0;
-                for (const key in history) {
-                    if (typeof history[key] === 'number') {
-                        filt_hist.push({
-                            id,
-                            text: key,
-                            count: history[key]
-                        })
-                        id++;
-                    }
-                }
-                setSearchHistory(filt_hist);
+    let arr = [];
+    const loadHistory = () => {
+        let id = 0;
+        for (const key in history) {
+            const obj = {
+                id,
+                text: key,
+                count: history[key]
             }
-            // console.log(filt_hist);
+            arr.push(obj);
+            id++;
         }
-        catch (error) {
-            console.log('Error loading search history:', error);
-        }
-    };
-
+    }
+    loadHistory();
+    console.log(arr);
     return (
         <View style={styles.container}>
             <FlatList
-                data={searchHistory}
+                data={arr}
                 renderItem={({ item }) => <ListItem text={item.text} count={item.count} />}
                 keyExtractor={item => item.id} />
         </View>
     );
 }
 
-const ListItem = ({text, count}) => {
+const ListItem = ({ text, count }) => {
     return (
-        <View style={{flex: 1, flexDirection: "row", justifyContent: "space-between"}}>
+        <View style={{ flex: 1, flexDirection: "row", justifyContent: "space-between" }}>
             <Text style={styles.text}>{text}</Text>
             <Text style={styles.text}>{count}</Text>
         </View>
