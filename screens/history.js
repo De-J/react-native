@@ -1,10 +1,10 @@
-import { useSelector } from "react-redux";
+import { useContext } from "react";
 import { View, Text, FlatList, StyleSheet } from "react-native";
 
-const History = () => {
-    const history = useSelector(state => state.history.histObj);
+import MainContext from "../contexts/mainContext";
 
-    console.log(history);
+const History = () => {
+    const { history } = useContext(MainContext);
 
     let arr = [];
     const loadHistory = () => {
@@ -20,7 +20,6 @@ const History = () => {
         }
     }
     loadHistory();
-    console.log(arr);
     return (
         <View style={styles.container}>
             <FlatList

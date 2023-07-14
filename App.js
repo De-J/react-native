@@ -5,9 +5,8 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { TouchableWithoutFeedback, Keyboard } from "react-native";
-import { Provider } from "react-redux";
 
-import { store } from "./store";
+import { MainProvider } from "./contexts/mainContext";
 import Dashboard from "./screens/dashboard";
 import Insights from "./screens/insights";
 import History from "./screens/history";
@@ -35,7 +34,7 @@ const App = () => {
 
   if (fontsLoaded) {
     return (
-      <Provider store={store}>
+      <MainProvider>
         <NavigationContainer>
           <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
             <Stack.Navigator screenOptions={{ headerShown: false }}>
@@ -44,7 +43,7 @@ const App = () => {
             </Stack.Navigator>
           </TouchableWithoutFeedback>
         </NavigationContainer>
-      </Provider>
+      </MainProvider>
     )
   } else {
     return (

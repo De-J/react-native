@@ -1,12 +1,11 @@
-import { useCallback } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useCallback, useContext } from "react";
 import { Image, View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import YoutubePlayer from "react-native-youtube-iframe";
-import { changeVidId } from "../slices/videoSlice";
+
+import MainContext from "../contexts/mainContext"
 
 const Tile = ({ data }) => {
-    const selected = useSelector((state) => state.videoId.value);
-    const dispatch = useDispatch();
+    const { selected, setSelected } = useContext(MainContext);
 
     const obj = data.snippet.thumbnails.medium;
     const imgData = {
@@ -23,7 +22,7 @@ const Tile = ({ data }) => {
 
 
     return (
-        <TouchableOpacity onPress={() => dispatch(changeVidId(data.id.videoId))}>
+        <TouchableOpacity onPress={() => setSelected(data.id.videoId)}>
             <View style={styles.container}>
                 <Text style={styles.text}>{data.snippet.title}</Text>
                 {(selected !== data.id.videoId || selected === "") && <Image source={imgData} />}

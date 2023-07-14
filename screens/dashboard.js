@@ -1,22 +1,21 @@
-import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useState, useContext } from "react";
 import { StyleSheet, View, Text, TextInput, Button, FlatList } from "react-native";
 
 // import response from "../dummydata.json"
 
+import MainContext from "../contexts/mainContext";
 import { search } from "../utils/requests"
 import Tile from "../components/Tile";
-import { appendHistory } from "../slices/historySlice";
 
 const Dashboard = ({ navigation }) => {
-    const dispatch = useDispatch();
+    const { appendHistory } = useContext(MainContext);
 
     const [text, setText] = useState("")
     const [videos, setVideos] = useState([]);
 
     const handlePress = async () => {
         try {
-            dispatch(appendHistory(text));
+            appendHistory(text);
             let res = await search(text, "channel");
 
             // extract channel id from initial search
@@ -27,7 +26,7 @@ const Dashboard = ({ navigation }) => {
             setVideos(res.data.items);
         }
         catch (err) {
-            console.error(err.response.data);
+            console.error(err);
         }
     }
 
@@ -41,7 +40,8 @@ const Dashboard = ({ navigation }) => {
                 <Text style={styles.label}>Username / Handle:</Text>
                 <TextInput style={styles.input}
                     placeholder="Type a username"
-                    onChangeText={(val) => setText(val)} />
+                    onChangeText={(val) => setText(val)}
+                    onSubmitEditing={handlePress}/>
                 <Button
                     title="Search"
                     onPress={handlePress}
