@@ -5,7 +5,9 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { TouchableWithoutFeedback, Keyboard } from "react-native";
+import { Provider } from "react-redux";
 
+import { store } from "./store";
 import Dashboard from "./screens/dashboard";
 import Insights from "./screens/insights";
 import History from "./screens/history";
@@ -18,7 +20,7 @@ const getFonts = () => Font.loadAsync({
 
 function Tabs() {
   const Tab = createBottomTabNavigator();
-  
+
   return (
     <Tab.Navigator>
       <Tab.Screen name="Dashboard" component={Dashboard} />
@@ -33,14 +35,16 @@ const App = () => {
 
   if (fontsLoaded) {
     return (
-      <NavigationContainer>
-        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-        <Stack.Navigator screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="Home" component={Tabs} />
-          <Stack.Screen name="Insights" component={Insights} />
-        </Stack.Navigator>
-        </TouchableWithoutFeedback>
-      </NavigationContainer>
+      <Provider store={store}>
+        <NavigationContainer>
+          <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+            <Stack.Navigator screenOptions={{ headerShown: false }}>
+              <Stack.Screen name="Home" component={Tabs} />
+              <Stack.Screen name="Insights" component={Insights} />
+            </Stack.Navigator>
+          </TouchableWithoutFeedback>
+        </NavigationContainer>
+      </Provider>
     )
   } else {
     return (
