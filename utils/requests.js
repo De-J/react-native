@@ -1,7 +1,5 @@
 import axios from "axios";
-
-const API_KEY = "";
-// put this in .env after finding a suitable react-native package
+import { YOUTUBE_API_KEY } from "@env";
 
 const instance = axios.create({
     baseURL: "https://www.googleapis.com/youtube/v3",
@@ -11,7 +9,7 @@ const instance = axios.create({
 export const search = async (query, type, channelId = "") => {
 
     const params = {
-        key: API_KEY,
+        key: YOUTUBE_API_KEY,
         part: "snippet",
         type: type,
     };
@@ -29,7 +27,7 @@ export const search = async (query, type, channelId = "") => {
 export const getVideoStats = async (videoIds) => {
     
     const params = {
-        key: API_KEY,
+        key: YOUTUBE_API_KEY,
         part: "snippet,statistics",
         id: videoIds
     };
