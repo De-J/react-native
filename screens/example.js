@@ -1,12 +1,20 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
+import CustomButton from '../components/CustomButton';
+
 
 export default function Example() {
+  const ref = useRef(null);
   const [name, setName] = useState("Dev")
   const [person, setPerson] = useState({
     name: "Person",
     age: 40
   })
+  
+  useEffect(() => {
+    ref.current.changeTitle("search");
+    ref.current.print();
+  }, []);
   
   
   const pressHandler = () => {
@@ -14,7 +22,9 @@ export default function Example() {
   }
   
   return (
-    <View></View>
+    <View>
+      <CustomButton ref={ref}/>
+    </View>
   );
 }
 

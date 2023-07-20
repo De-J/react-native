@@ -1,23 +1,32 @@
-import React, { Component } from 'react';
+import { Component, createRef } from 'react';
 import { StyleSheet, View, Text, TextInput, Button, FlatList } from "react-native";
 
-// import response from "../dummydata.json"
+import response from "../dummydata.json";
 
 import MainContext from "../contexts/mainContext";
-import { search } from "../utils/requests"
+import { search } from "../utils/requests";
 import Tile from "../components/Tile";
+import CustomButton from '../components/CustomButton';
 class Dashboard extends Component {
-    constructor(props) {
-        super(props);
+    constructor() {
+        super();
         this.state = {
             text: "",
             videos: []
         };
+        this.myRef = createRef();
     }
+
+    componentDidMount() {
+        this.myRef.current.changeTitle("search");
+    };
+
+
 
     handlePress = async () => {
         const { appendHistory } = this.context;
         try {
+            // console.log(this.myRef);
             appendHistory(this.state.text);
             let res = await search(this.state.text, "channel");
 
@@ -26,10 +35,10 @@ class Dashboard extends Component {
 
             // search for videos of above channelId
             res = await search(this.state.text, "video", channelId);
-            this.setState({ videos: res.data.items });
+            this.setState({ videos: response.items });
         }
         catch (err) {
-            console.error(err);
+            console.error();
         }
     }
 
@@ -46,9 +55,9 @@ class Dashboard extends Component {
                         placeholder="Type a username"
                         onChangeText={(val) => this.setState({ text: val })}
                         onSubmitEditing={this.handlePress} />
-                    <Button
-                        title="Search"
-                        onPress={this.handlePress}
+                    <CustomButton
+                        ref={this.myRef}
+                        onPress={this.handlePress} 
                         disabled={!this.state.text} />
                 </View>
                 <FlatList
