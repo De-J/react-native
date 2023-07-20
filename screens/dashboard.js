@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useRef, useEffect } from "react";
 import { StyleSheet, View, Text, TextInput, Button, FlatList } from "react-native";
 
 // import response from "../dummydata.json"
@@ -6,13 +6,19 @@ import { StyleSheet, View, Text, TextInput, Button, FlatList } from "react-nativ
 import MainContext from "../contexts/mainContext";
 import { search } from "../utils/requests"
 import Tile from "../components/Tile";
+import CustomButton from "../components/CustomButton";
 
 const Dashboard = ({ navigation }) => {
     const { appendHistory } = useContext(MainContext);
 
+    const myRef = useRef(null);
     const [text, setText] = useState("")
     const [videos, setVideos] = useState([]);
 
+    useEffect(() => {
+        myRef.current.changeTitle("Submit");
+    }, [])
+    
     const handlePress = async () => {
         try {
             appendHistory(text);
@@ -42,8 +48,8 @@ const Dashboard = ({ navigation }) => {
                     placeholder="Type a username"
                     onChangeText={(val) => setText(val)}
                     onSubmitEditing={handlePress}/>
-                <Button
-                    title="Search"
+                <CustomButton
+                    ref={myRef}
                     onPress={handlePress}
                     disabled={!text} />
             </View>
