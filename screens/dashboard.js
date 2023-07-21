@@ -1,7 +1,7 @@
 import { Component, createRef } from 'react';
 import { StyleSheet, View, Text, TextInput, Button, FlatList } from "react-native";
 
-import response from "../dummydata.json";
+// import response from "../dummydata.json";
 
 import MainContext from "../contexts/mainContext";
 import { search } from "../utils/requests";
@@ -35,10 +35,10 @@ class Dashboard extends Component {
 
             // search for videos of above channelId
             res = await search(this.state.text, "video", channelId);
-            this.setState({ videos: response.items });
+            this.setState({ videos: res.data.items });
         }
         catch (err) {
-            console.error();
+            console.error(err);
         }
     }
 
