@@ -25,7 +25,7 @@ export const search = async (query, type, channelId = "") => {
 }
 
 export const getVideoStats = async (videoIds) => {
-    
+
     const params = {
         key: YOUTUBE_API_KEY,
         part: "snippet,statistics",
