@@ -1,5 +1,5 @@
 import { Component, createRef } from 'react';
-import { StyleSheet, View, Text, TextInput, Button, FlatList } from "react-native";
+import { StyleSheet, View, Text, Button } from "react-native";
 
 // import response from "../dummydata.json";
 
@@ -10,11 +10,14 @@ import MainContext from '../contexts/mainContext';
 class Dashboard extends Component {
     constructor() {
         super();
-        this.myRef = createRef();
+        this.button = null
+        this.setRef = element => {
+            this.button = element
+        }
     }
 
     componentDidMount() {
-        this.myRef.current.changeTitle("search");
+        this.button.changeTitle("search");
     };
 
 
@@ -28,7 +31,7 @@ class Dashboard extends Component {
             <View style={styles.container}>
                 <View style={styles.searchBox}>
                     <Text style={styles.label}>Username / Handle:</Text>
-                    <Search reference={this.myRef} />
+                    <Search reference={this.setRef} />
                 </View>
                 <VideoList />
                 <Button
