@@ -3,6 +3,7 @@ import { createContext, useState } from "react";
 const MainContext = createContext({});
 
 export const MainProvider = ({children}) => {
+    const [videos, setVideos] = useState([]);
     const [history, setHistory] = useState({});
     const [selected, setSelected] = useState("");
 
@@ -17,7 +18,7 @@ export const MainProvider = ({children}) => {
     }
     
     return(
-        <MainContext.Provider value={{history, appendHistory, selected, setSelected}}>
+        <MainContext.Provider value={{videos, setVideos, history, appendHistory, selected, setSelected}}>
             {children}
         </MainContext.Provider>
     )
