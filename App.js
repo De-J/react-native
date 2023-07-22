@@ -6,7 +6,8 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { TouchableWithoutFeedback, Keyboard } from "react-native";
 
-import { MainProvider } from "./contexts/mainContext";
+import { HistoryProvider } from "./contexts/historyContext";
+import { VideoProvider } from "./contexts/videoContext";
 import Dashboard from "./screens/dashboard";
 import Insights from "./screens/insights";
 import History from "./screens/history";
@@ -17,33 +18,18 @@ const getFonts = () => Font.loadAsync({
   "sf-pro-disp": require("./assets/fonts/SFProDisplay-Regular.ttf")
 });
 
-function Tabs() {
-  const Tab = createBottomTabNavigator();
-
-  return (
-    <Tab.Navigator>
-      <Tab.Screen name="Dashboard" component={Dashboard} />
-      <Tab.Screen name="History" component={History} />
-    </Tab.Navigator>
-  );
-}
-
 const App = () => {
   const [fontsLoaded, setFontsLoaded] = useState(false);
-  const Stack = createNativeStackNavigator();
 
   if (fontsLoaded) {
     return (
-      <MainProvider>
-        <NavigationContainer>
-          <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-            <Stack.Navigator screenOptions={{ headerShown: false }}>
-              <Stack.Screen name="Home" component={Tabs} />
-              <Stack.Screen name="Insights" component={Insights} />
-            </Stack.Navigator>
-          </TouchableWithoutFeedback>
-        </NavigationContainer>
-      </MainProvider>
+      <HistoryProvider>
+        <VideoProvider>
+          <NavigationContainer>
+            <Layout />
+          </NavigationContainer>
+        </VideoProvider>
+      </HistoryProvider>
     )
   } else {
     return (
@@ -53,6 +39,30 @@ const App = () => {
         onError={console.warn} />
     )
   }
+}
+
+const Stack = createNativeStackNavigator();
+
+const Layout = () => {
+  return (
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="Home" component={Tabs} />
+        <Stack.Screen name="Insights" component={Insights} />
+      </Stack.Navigator>
+    </TouchableWithoutFeedback>
+  )
+}
+
+function Tabs() {
+  const Tab = createBottomTabNavigator();
+
+  return (
+    <Tab.Navigator>
+      <Tab.Screen name="Dashboard" component={Dashboard} />
+      <Tab.Screen name="History" component={History} />
+    </Tab.Navigator>
+  );
 }
 
 export default App;

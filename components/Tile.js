@@ -2,10 +2,10 @@ import { useCallback, useContext } from "react";
 import { Image, View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import YoutubePlayer from "react-native-youtube-iframe";
 
-import MainContext from "../contexts/mainContext"
+import VideoContext from "../contexts/videoContext"
 
 const Tile = ({ data }) => {
-    const { selected, setSelected } = useContext(MainContext);
+    const { selected, setSelected } = useContext(VideoContext);
 
     const obj = data.snippet.thumbnails.medium;
     const imgData = {

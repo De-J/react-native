@@ -3,7 +3,8 @@ import { TextInput, StyleSheet, View } from "react-native"
 
 import CustomButton from "./CustomButton";
 import { search } from "../utils/requests";
-import MainContext from "../contexts/mainContext";
+import VideoContext from "../contexts/videoContext";
+import HistoryContext from "../contexts/historyContext";
 
 class Search extends Component {
     constructor() {
@@ -14,7 +15,8 @@ class Search extends Component {
     }
 
     handlePress = async () => {
-        const { setVideos, appendHistory } = this.context;
+        const { setVideos } = this.props.videoContext;
+        const { appendHistory } = this.props.historyContext;
         try {
             appendHistory(this.state.text);
             let res = await search(this.state.text, "channel");
@@ -47,7 +49,7 @@ class Search extends Component {
     }
 }
 
-Search.contextType = MainContext;
+// Search.contextType = MainContext;
 
 const styles = StyleSheet.create({
     input: {
@@ -58,4 +60,18 @@ const styles = StyleSheet.create({
     }
 })
 
-export default Search;
+const withBothContext = MyComponent => (
+    props => (
+        <HistoryContext>
+            {histContext =>
+                <VideoContext.Consumer>
+                    {vidContext => 
+                        <MyComponent {...props} 
+                            historyContext={histContext} 
+                            videoContext={vidContext} />}
+                </VideoContext.Consumer>}
+        </HistoryContext>
+    )
+)
+
+export default withBothContext(Search);

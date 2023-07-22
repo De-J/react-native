@@ -1,10 +1,10 @@
 import { useContext } from "react";
 import { View, Text, FlatList, StyleSheet } from "react-native";
 
-import MainContext from "../contexts/mainContext";
+import HistoryContext from "../contexts/historyContext";
 
 const History = () => {
-    const { history } = useContext(MainContext);
+    const { history } = useContext(HistoryContext);
 
     let arr = [];
     const loadHistory = () => {

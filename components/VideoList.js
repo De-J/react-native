@@ -1,7 +1,7 @@
 import { Component } from 'react';
 import { FlatList, Text } from "react-native";
 
-import MainContext from '../contexts/mainContext';
+import VideoContext from '../contexts/videoContext';
 import Tile from './Tile';
 
 class VideoList extends Component {
@@ -18,6 +18,6 @@ class VideoList extends Component {
     }
 }
 
-VideoList.contextType = MainContext;
+VideoList.contextType = VideoContext;
 
 export default VideoList;

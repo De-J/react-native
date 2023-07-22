@@ -5,7 +5,7 @@ import { StyleSheet, View, Text, Button } from "react-native";
 
 import Search from "../components/Search";
 import VideoList from '../components/VideoList';
-import MainContext from '../contexts/mainContext';
+import VideoContext from '../contexts/videoContext';
 
 class Dashboard extends Component {
     constructor() {
@@ -42,7 +42,7 @@ class Dashboard extends Component {
     }
 }
 
-Dashboard.contextType = MainContext;
+Dashboard.contextType = VideoContext;
 
 const styles = StyleSheet.create({
     container: {
