@@ -1,25 +1,23 @@
-import { Component, createRef } from 'react';
+import { Component } from 'react';
 import { StyleSheet, View, Text, Button } from "react-native";
 
 // import response from "../dummydata.json";
 
 import Search from "../components/Search";
 import VideoList from '../components/VideoList';
-import VideoContext from '../contexts/videoContext';
+import VideoContext from "../contexts/videoContext";
+import HistoryContext from "../contexts/historyContext";
 
 class Dashboard extends Component {
     constructor() {
         super();
-        this.button = null
-        this.setRef = element => {
-            this.button = element
-        }
+
     }
+    myRef;
 
     componentDidMount() {
-        this.button.changeTitle("search");
-    };
-
+        this.myRef.customButton.changeTitle("search");
+    }
 
     gotoInsights = () => {
         const { videos } = this.context;
@@ -28,16 +26,26 @@ class Dashboard extends Component {
 
     render() {
         return (
-            <View style={styles.container}>
-                <View style={styles.searchBox}>
-                    <Text style={styles.label}>Username / Handle:</Text>
-                    <Search reference={this.setRef} />
-                </View>
-                <VideoList />
-                <Button
-                    title="Insights"
-                    onPress={this.gotoInsights} />
-            </View>
+            <HistoryContext.Consumer>
+                {histContext =>
+                    <VideoContext.Consumer>
+                        {vidContext =>
+                            <View style={styles.container}>
+                                <View style={styles.searchBox}>
+                                    <Text style={styles.label}>Username / Handle:</Text>
+                                    <Search 
+                                        ref={(e) => this.myRef = e}
+                                        historyContext={histContext} 
+                                        videoContext={vidContext}/>
+                                </View>
+                                <VideoList />
+                                <Button
+                                    title="Insights"
+                                    onPress={this.gotoInsights} />
+                            </View>
+                        }
+                    </VideoContext.Consumer>}
+            </HistoryContext.Consumer>
         );
     }
 }
