@@ -15,10 +15,6 @@ class Dashboard extends Component {
     }
     myRef;
 
-    componentDidMount() {
-        this.myRef.customButton.changeTitle("search");
-    }
-
     gotoInsights = () => {
         const { videos } = this.context;
         this.props.navigation.navigate("Insights", { vidData: videos });

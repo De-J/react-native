@@ -1,4 +1,4 @@
-import { Component } from "react";
+import { Component, forwardRef } from "react";
 import { TextInput, StyleSheet, View } from "react-native"
 
 import CustomButton from "./CustomButton";
@@ -15,10 +15,31 @@ class Search extends Component {
     customButton;
 
     shouldComponentUpdate(nextProps, nextState) {
-        if (this.state.text === nextState.text)
-            return false;
-        else
-            return true;
+        console.log("shouldComponentUpdate");
+        // if (nextState.value !== this.state.value) {
+        //     return true;
+        // }
+        // return false;
+    }
+
+    componentWillUpdate() {
+        console.log("componentWillUpdate");
+    }
+
+    componentDidUpdate() {
+        console.log("componentDidUpdate");
+    }
+    
+    componentWillMount() {
+        console.log("componentWillMount");
+    }
+
+    componentDidMount() {
+        console.log("componentDidMount");
+    }
+
+    componentWillUnmount() {
+        console.log("componentWillUnmount")
     }
 
     handlePress = async () => {
@@ -44,14 +65,13 @@ class Search extends Component {
     render() {
         console.log("search render");
         return (
-
             <View>
                 <TextInput style={styles.input}
                     placeholder="Type a username"
                     onChangeText={(val) => this.setState({ text: val })}
                     onSubmitEditing={this.handlePress} />
                 <CustomButton
-                    ref={e => this.customButton = e}
+                    // ref={e => this.customButton = e}
                     onPress={this.handlePress}
                     disabled={!this.state.text} />
             </View>
