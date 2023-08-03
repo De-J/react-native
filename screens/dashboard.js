@@ -7,34 +7,17 @@ import MainContext from "../contexts/mainContext";
 import { search } from "../utils/requests"
 import Tile from "../components/Tile";
 import CustomButton from "../components/CustomButton";
+import Search from "../components/Search";
+import VideoList from "../components/VideoList";
 
 const Dashboard = ({ navigation }) => {
-    const { appendHistory } = useContext(MainContext);
-
-    const myRef = useRef(null);
-    const [text, setText] = useState("")
+    // const myRef = useRef(null);
     const [videos, setVideos] = useState([]);
 
-    useEffect(() => {
-        myRef.current.changeTitle("Submit");
-    }, [])
+    // useEffect(() => {
+    //     myRef.current.changeTitle("Submit");
+    // }, [])
     
-    const handlePress = async () => {
-        try {
-            appendHistory(text);
-            let res = await search(text, "channel");
-
-            // extract channel id from initial search
-            const channelId = res.data.items[0].id.channelId;
-
-            // search for videos of above channelId
-            res = await search(text, "video", channelId);
-            setVideos(res.data.items);
-        }
-        catch (err) {
-            console.error(err);
-        }
-    }
 
     const gotoInsights = () => {
         navigation.navigate("Insights", { vidData: videos });
@@ -42,22 +25,8 @@ const Dashboard = ({ navigation }) => {
 
     return (
         <View style={styles.container}>
-            <View style={styles.searchBox}>
-                <Text style={styles.label}>Username / Handle:</Text>
-                <TextInput style={styles.input}
-                    placeholder="Type a username"
-                    onChangeText={(val) => setText(val)}
-                    onSubmitEditing={handlePress}/>
-                <CustomButton
-                    ref={myRef}
-                    onPress={handlePress}
-                    disabled={!text} />
-            </View>
-            <FlatList
-                data={videos}
-                renderItem={({ item }) => <Tile data={item} />}
-                keyExtractor={item => item.id.videoId}
-                ItemSeparatorComponent={<Text></Text>} />
+            <Search />
+            <VideoList />
             <Button
                 title="Insights"
                 onPress={gotoInsights} />
