@@ -1,31 +1,30 @@
-import { useState, useContext } from "react";
+import { useState, useContext, forwardRef } from "react";
 import { TextInput, StyleSheet, View } from "react-native"
 
 import CustomButton from "./CustomButton";
 import { search } from "../utils/requests";
 import MainContext from "../contexts/mainContext";
 
-const Search = () => {
+const Search = forwardRef((props, ref) => {
     const [text, setText] = useState("");
-
+    const { setVideos, appendHistory } = useContext(MainContext);
+    
     const handlePress = async () => {
-        const { setVideos, appendHistory } = useContext(MainContext);
         try {
-            appendHistory(this.state.text);
-            let res = await search(this.state.text, "channel");
+            appendHistory(text);
+            let res = await search(text, "channel");
 
             // extract channel id from initial search
             const channelId = res.data.items[0].id.channelId;
 
             // search for videos of above channelId
-            res = await search(this.state.text, "video", channelId);
+            res = await search(text, "video", channelId);
             setVideos(res.data.items);
         }
         catch (err) {
             console.error(err);
         }
     }
-
 
     return (
         <View>
@@ -34,12 +33,12 @@ const Search = () => {
                 onChangeText={(val) => setText(val)}
                 onSubmitEditing={handlePress} />
             <CustomButton
-                ref={this.props.reference}
+                ref={ref}
                 onPress={handlePress}
                 disabled={!text} />
         </View>
     )
-}
+})
 
 const styles = StyleSheet.create({
     input: {

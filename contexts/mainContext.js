@@ -5,6 +5,7 @@ const MainContext = createContext({});
 export const MainProvider = ({children}) => {
     const [history, setHistory] = useState({});
     const [selected, setSelected] = useState("");
+    const [videos, setVideos] = useState([]);
 
     const appendHistory = (text) => {
         const obj = {...history}
@@ -17,7 +18,7 @@ export const MainProvider = ({children}) => {
     }
     
     return(
-        <MainContext.Provider value={{history, appendHistory, selected, setSelected}}>
+        <MainContext.Provider value={{history, appendHistory, selected, setSelected, videos, setVideos}}>
             {children}
         </MainContext.Provider>
     )

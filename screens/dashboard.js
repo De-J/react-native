@@ -1,22 +1,18 @@
-import { useState, useContext, useRef, useEffect } from "react";
-import { StyleSheet, View, Text, TextInput, Button, FlatList } from "react-native";
+import { useState, useRef, useEffect } from "react";
+import { StyleSheet, View, Button } from "react-native";
 
 // import response from "../dummydata.json"
 
-import MainContext from "../contexts/mainContext";
-import { search } from "../utils/requests"
-import Tile from "../components/Tile";
-import CustomButton from "../components/CustomButton";
 import Search from "../components/Search";
 import VideoList from "../components/VideoList";
 
 const Dashboard = ({ navigation }) => {
-    // const myRef = useRef(null);
+    const myRef = useRef(null);
     const [videos, setVideos] = useState([]);
 
-    // useEffect(() => {
-    //     myRef.current.changeTitle("Submit");
-    // }, [])
+    useEffect(() => {
+        myRef.current.changeTitle("Submit");
+    }, [])
     
 
     const gotoInsights = () => {
@@ -25,7 +21,7 @@ const Dashboard = ({ navigation }) => {
 
     return (
         <View style={styles.container}>
-            <Search />
+            <Search ref={myRef}/>
             <VideoList />
             <Button
                 title="Insights"
